@@ -7,7 +7,7 @@ const smtpTransport = nodemailer.createTransport({
     port:465,
     auth: {
         user: '360842060@qq.com',
-        pass: 'zmyzjlaqbvxxbhcg'//注：此处为授权码，并非邮箱密码
+        pass: ''//注：此处为授权码，并非邮箱密码，已省略
     }
 });
 
