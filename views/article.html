@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <style>
+        body{font-family: "Microsoft YaHei",serif;}
+        body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+        ol,ul,li{margin:0;padding:0;list-style:none;}
+        img{border:none;}
+	</style>
+	
+</head>
+<body>
+	<form method="post" class="form">
+		title:<input type="text" name="title"><br>
+		author:<input type="text" name="author"><br>
+		phone:<input type="text" name="phone"><br>
+		address:<input type="text" name="address"><br>
+		qq:<input type="text" name="qq"><br>
+		email:<input type="text" name="email"><br>
+		content:<input type="content" name="content"><br>
+		<div class="send">提交</div>
+	</form>
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script>
+    	let date = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+		console.log(date);   
+
+    	$('.form .send').click(()=>{
+    		let title = $('input[name=title]').val().trim(),
+				author = $('input[name=author]').val().trim(),
+				phone = $('input[name=phone]').val().trim(),
+				address = $('input[name=address]').val().trim(),
+				qq = $('input[name=qq]').val().trim(),
+				email = $('input[name=email]').val().trim(),
+				content = $('input[name=content]').val().trim()
+    		;
+    		if( title=='' || author=='' || phone=='' || address=='' || email=='' || content=='' ){
+    			console.log("内容不能为空");
+    		}else{
+    			$.ajax({
+				    url: "/bj/article",
+					data: $('.form').serialize(),
+					type: "POST",
+					cache: false,
+					dataType: 'json',
+					success: function (msg) {
+					    if (msg.code != 200) {
+							$('input').eq(4).val('')
+						    console.log('错误')
+					    } else{
+						    console.log('提交成功')               	
+					    }
+					},
+					error:function() {
+						console.log("异常");
+					}
+    			})
+    		}
+    	});
+    </script>
+</body>
+</html>
+
+
+
+
+
+

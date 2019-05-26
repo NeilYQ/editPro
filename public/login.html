@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <link rel="stylesheet" type="text/css" href="/css/republic.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/footer.css">
+    <style>
+        .wrap{
+            background-image:linear-gradient(to bottom, #27ae60 65px,#f5f5f5 65px);
+        }
+        .header{
+            height:65px;
+        }
+        .desc{
+          min-height:600px;
+        }
+        .form.login{
+          height:400px;
+          margin: 100px auto 0;
+        }
+        .form.login .avator{
+          display: block;
+          width:100px;
+          height:100px;
+          margin:50px auto 15px;
+          padding:5px;
+          border:3px solid #666;
+          border-radius: 50%;
+          background-color: #fff;
+          box-shadow:0 0 2px 2px #666;
+        }
+        .form.login input{
+          display: block;
+          width: 240px;
+          height:32px;
+          margin:0 auto 10px;
+          border:1px solid #ccc;
+          border-radius: 3px;
+          line-height:32px;
+          text-indent:15px;
+          outline: none;
+        }
+        .form.login .loginbt{
+          position:relative;
+          width: 240px;
+          height:36px ;
+          margin:15px auto;
+          border-radius: 3px;
+          background-color: #1ba784;
+          color: #fff;
+          font-size: 14px;
+          text-indent: 15px;
+          letter-spacing: 15px;
+          text-align: center;
+          line-height: 36px;
+          cursor: pointer;
+          transition:.8s ease all;
+        }
+        .form.login .loginbt:hover{
+          background:#fff;
+          color:#1AAB8A;
+        }
+        .form.login .loginbt::before,
+        .form.login .loginbt::after{
+          content:'';
+          position:absolute;
+          top:0;
+          right:0;
+          width:0;
+          height:0;
+          border:2px solid transparent;
+          transition:400ms ease all;
+        }
+        .form.login .loginbt::before{
+          border-bottom:none;
+          border-left:none;
+        }
+        .form.login .loginbt::after{
+          right:inherit;
+          top: inherit;
+          left:0;
+          bottom:0;
+          border-top:none;
+          border-right:none;
+        }
+        .form.login .loginbt:hover::before,
+        .form.login .loginbt:hover::after{
+          width:calc(100% - 2px);
+          height:calc(100% - 2px);
+          border-color:#1AAB8A;
+          transition:800ms ease all;
+        }
+
+        }
+    </style>
+</head>
+<body>
+	<div class="wrap">
+         <!-- header start -->
+        <div class="header content clear-fix">
+            <h3 class="title fl-l"><a href="/">在线投稿系统</a></h3>
+            <ul class="menu fl-r">
+                <li class="h-item fl-l active">登录</li>
+            </ul> 
+        </div>
+        <!-- header end -->
+
+        <!-- desc start -->
+        <div class="desc content">
+            <form method="post" class="form login">
+                <img src="/images/avator.jpg" width="100" height="100" class="avator">
+                <input type="text" name="loginName" placeholder="请输入用户名">
+                <input type="password" name="password" placeholder="请输入密码">
+                <div class="loginbt">登录</div>
+            </form> 
+        </div>
+        <!-- desc end -->
+
+        <!-- footer start -->
+        <div class="footer">
+            <div class="content">
+                <p class="date fl-l">@2018</p>
+                <p class="sign fl-r">由南京晓庄学院16软转2班第六小组制作</p>
+            </div>
+        </div>
+        <!-- footer end -->
+    </div>
+
+    <!-- Dialog start -->
+    <div class="mask"></div>
+    <div id="dialog">
+      <h4>提示</h4>
+      <div class="msg">
+        <p class="tip">提交成功！</p>
+        <p id="stateCode"></p>
+      </div>
+      <div class="out">确定</div>
+    </div>
+    <!-- Dialog end -->
+
+    <script src="/js/jquery3.3.1.js"></script>
+    <script src="/js/md5.js"></script>
+    <script>
+      ~function() {
+        $('.loginbt').click(()=>{
+          let loginName = $('input[name=loginName]').val().trim(),
+              password =  $('input[name=password]').val().trim();
+          if (loginName == '' || password == '' ) {
+            console.log('请输入用户名或密码');
+            //提示框
+            $('#dialog .msg .tip').text("请输入用户名或密码!"); 
+            $('.mask').addClass('show');
+            $('#dialog').addClass('show');
+            $('.out').click(function(){
+              $('.mask').removeClass('show');
+              $('#dialog').removeClass('show');
+            });
+          }else{
+            $.ajax({
+              url: "/editor/loginPost",
+              data: {loginName,password},
+              type: "POST",
+              cache: false,
+              dataType: 'json',
+              success: function (msg) {
+                if (msg.code != 200) {
+                  $('input').val('')
+                  console.log('用户名或密码错误');
+                  //提示框
+                  $('#dialog .msg .tip').text("用户名或密码错误!"); 
+                  $('.mask').addClass('show');
+                  $('#dialog').addClass('show');
+                  $('.out').click(function(){
+                    $('.mask').removeClass('show');
+                    $('#dialog').removeClass('show');
+                  });
+                } else{
+                  console.log('登录成功');
+                  // 登录成功后跳转
+                  setTimeout(()=>{
+                    window.location.href = "/editor";
+                  },400);  
+                }
+              },
+              error: function () {
+                console.log('异常');
+              }
+            })          
+          }
+        });
+      }(); 
+    </script>
+</body>
+</html>
+
+

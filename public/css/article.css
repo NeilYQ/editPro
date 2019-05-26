@@ -1,0 +1,107 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-12-15 16:09:13
+ * @version $Id$
+ */
+
+.desc{
+  width:680px; 
+  min-height:600px;
+  padding:0 30px 30px 30px;
+  background-color: rgba(255,255,255,.7);
+}
+.desc .article-box{
+  width:100%;
+  margin:auto;
+}
+.desc .article-box .title{
+  margin:20px auto 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+}
+.desc .article-box .msg{
+  min-width: 120px;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+}
+.desc .article-box .msg .icon{
+  display:inline-block;
+  width: 16px;
+  height:16px;
+  margin-left:20px;
+  background-size: 16px 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+  vertical-align: text-bottom;
+}
+.desc .article-box .msg .icon-author{
+  background-image: url("/images/author.png");
+}
+.desc .article-box .msg .icon-date{
+  background-image: url("/images/date.png");
+}
+.desc .article-box .msg span{
+  display: inline-block;
+  padding:0 10px;
+  font-weight: 400;
+  transform: skew(-10deg);
+}
+.desc .article-box .article-content{
+  width: 100%;
+  height:100%;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+.desc .form .comment{
+  display: block;
+  width: calc(100% - 12px);
+  min-height: 60px;
+  margin: auto;
+  padding: 6px;
+  border-radius: 3px;
+  text-indent: 2em;
+}
+.desc .form .state{
+  width: 100px;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  margin: 10px;
+}
+.desc .form .submit{
+  display: inline-block;
+  width: 80px;
+  height: 24px;
+  margin: 10px 0;
+  color: #fff;
+  border-radius: 3px;
+  background-color: #17ab84;
+  text-align: center;
+  line-height: 24px;
+  font-size: 12px;
+  letter-spacing: .5em;
+  text-indent: .5em;
+  transition: .3s .3s;
+  cursor: pointer;
+}
+.desc .form .submit:hover{
+  background-color: #40d4af;
+}
+
+.desc .comment-box{
+  margin-top:40px;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius: 3px;
+}
+.desc .comment-box .comment{
+  text-indent: 2em;
+}
+.desc .comment-box .editor{
+  text-align: right;
+}

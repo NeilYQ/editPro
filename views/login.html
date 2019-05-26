@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <style>
+        body{font-family: "Microsoft YaHei",serif;}
+        body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+        ol,ul,li{margin:0;padding:0;list-style:none;}
+        img{border:none;}
+	</style>
+</head>
+<body>
+		<form method="post" class="form login">
+			<input type="text" name="loginName">
+			<input type="password" name="password">
+			<div class="loginbt">login</div>
+		</form>	
+
+		<script src="/js/jquery3.3.1.js"></script>
+		<script src="/js/md5.js"></script>
+    <script>
+    	~function() {
+    		$('.loginbt').click(()=>{
+    			let loginName = $('input[name=loginName]').val().trim(),
+    					password =  $('input[name=password]').val().trim();
+    			if (loginName == '' || password == '' ) {
+						console.log('请输入用户名或密码')
+					}else{
+						console.log({loginName,password})
+						$.ajax({
+							url: "/login",
+							data: {loginName,password},
+							type: "POST",
+							cache: false,
+							dataType: 'json',
+							success: function (msg) {
+							    if (msg.code != 200) {
+										$('input').val('')
+								    console.log('用户名或密码错误');
+							    } else{
+								    console.log('登录成功');              	
+							    }
+							    //登录成功后跳转
+							    setTimeout(()=>{
+								    window.location.href = "/bj"
+							    },1000)	
+							},
+							error: function () {
+								alert('异常');
+							}
+						})			
+					}
+    		});
+    	}()
+  			
+    </script>
+</body>
+</html>

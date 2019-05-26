@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>审阅文章</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <link rel="stylesheet" type="text/css" href="/css/republic.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="/css/editor.css">
+    <link rel="stylesheet" type="text/css" href="/css/article.css">
+</head>
+<body>
+	<div class="wrap">
+		<!-- header start -->
+    <div class="header content clear-fix">
+        <h3 class="title fl-l"><a href="/">在线投稿系统</a></h3>
+        <ul class="menu fl-r">
+            <li class="h-item fl-l"><a href="/editor">审阅</a></li>
+            <li class="h-item fl-l">文章</li>
+            <li class="h-item fl-l">
+                <a href=""><img class="avator" src="/images/avator.jpg" width="36" height="36" title=""></a>
+                <div class="user">
+                    <img class="avator" src="/images/avator.jpg" width="52" height="52" title="">
+                    <div class="user-info">
+                    <h4 class="loginName">user</h4>
+                    <p class="email">email</p>
+                    </div>
+                    <a><span class="loginout">login out</span></a>
+                </div>
+            </li>
+        </ul> 
+    </div>
+    <!-- header end -->
+
+    <!-- desc start -->
+    <div class="desc content">
+    	<div class="article-box">
+        <p class="title">title</p>
+        <p class="msg">
+          <i class="icon icon-author"></i><span class="author">author</span>
+          <i class="icon icon-date"></i><span class="date">date</span>
+        </p>
+        <pre class="article-content">content</pre>  
+      </div>
+      <form class="form clear-fix" method="post">
+        <textarea class="comment" id="comment" name="comment" placeholder="请输入您的评论内容"></textarea>
+        <div class="submit fl-r">确定</div>
+        <select name="state" class="state fl-r">
+          <option>未审阅</option>
+          <option>待改进</option>
+          <option>录用</option>
+        </select>
+      </form> 
+    </div>
+    <!-- desc end -->
+
+    <!-- footer start -->
+    <div class="footer">
+      <div class="content">
+        <p class="date fl-l">@2018</p>
+        <p class="sign fl-r">由南京晓庄学院16软转2班第六小组制作</p>
+      </div>
+    </div>
+    <!-- footer end -->
+	</div>
+
+  <!-- Dialog start -->
+  <div class="mask"></div>
+  <div id="dialog">
+    <h4>提示</h4>
+    <div class="msg">
+      <p class="tip">提交成功！</p>
+    </div>
+    <div class="out">确定</div>
+  </div>
+  <!-- Dialog end -->
+
+  <script src="/js/jquery3.3.1.js"></script>
+  <script src="/js/autoTextarea.js"></script>
+  <script src="/js/loginout.js"></script>
+  <script>
+    //动态文本框
+    (function(){
+      let text=document.getElementById("comment");
+      autoTextarea(text);
+    })();
+    //获取文章内容
+    $(function(){
+      $.ajax({
+        url: window.location.href+"/articleAllPost",
+        type: "POST",
+        cache: false,
+        dataType: 'json',
+        success: function (msg) {
+          $('.article-box .title').text(msg.articleData.title);
+          $('.article-box .author').text(msg.articleData.author);
+          $('.article-box .date').text(msg.articleData.articleDate);
+          $('.article-box .article-content').text(msg.articleData.content);
+        },
+        error: (err)=>{
+          console.log(err);
+        }
+      });
+    });
+    // 提交评论
+    $('.submit').click(()=>{
+      let comment = $('.comment').val(),
+          state = $('.state').val();
+      if(comment || state){
+         $.ajax({
+          url: window.location.href+"/commentPost",
+          data: {comment,state},
+          type: "POST",
+          cache: false,
+          dataType: 'json',
+          success: function (msg) {
+            // 若提交不成功，显示错误信息
+            if( msg.code!=200 ){
+              //提示框
+              $('#dialog .msg .tip').text("网络异常！请重试！"); 
+              $('.mask').addClass('show');
+              $('#dialog').addClass('show');
+              $('.out').click(function(){
+                $('.mask').removeClass('show');
+                $('#dialog').removeClass('show');
+              });
+            }else{ // 若提交成功，显示提示信息，并一定时间后跳转至文章浏览页
+              //提示框
+              $('#dialog .msg .tip').text(msg.message); 
+              $('.mask').addClass('show');
+              $('#dialog').addClass('show');
+              $('.out').click(function(){
+                $('.mask').removeClass('show');
+                $('#dialog').removeClass('show');
+                setTimeout(function(){
+                  window.location.href = window.location.href.replace(/\/editor/,"");
+                },600);
+              });
+            }
+          },
+          error: (err)=>{
+            console.log(err);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

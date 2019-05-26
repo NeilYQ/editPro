@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-11-28 21:49:44
+ * @version $Id$
+ */
+
+/*public*/
+body{font-size:14px;font-family: "Microsoft YaHei",serif;}
+body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+ol,ul,li{margin:0;padding:0;list-style:none;}
+img{border:none;}
+a{
+  display: block;
+  width: 100%;
+  height:100%;
+  color:inherit;
+  text-decoration: none;
+}
+
+@media screen{
+    .wrap{
+        width:100%;
+    }
+}
+@media screen and (max-width:1000px){
+    .wrap{
+        width:1000px;
+    }
+}
+.clear-fix::after{
+    clear: both;
+}
+.fl-r{
+    float: right;
+}
+.fl-l{
+    float: left;
+}
+
+.wrap{
+    background-image:linear-gradient(to bottom, #27ae60 65px,#f5f5f5 65px);
+}
+/*content*/
+.content{
+  width:1000px;
+  margin:0 auto;
+  overflow: hidden;
+}
+
+/*Dialog*/
+.mask{
+  opacity: 0;
+  visibility: hidden;
+  position:fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  background-color: rgba(0,0,0,.3);
+  z-index: 1;
+  transition: .3s;
+}
+.mask.show{
+  opacity: 1;
+  visibility: visible;
+}
+#dialog{
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:300px;
+  margin-top:-120px;
+  margin-left: -150px;
+  padding-bottom:45px; 
+  background-color: #fff;
+  box-shadow:0 0 5px 3px rgba(0,0,0,0.6), 0 0 2px 2px rgba(0,0,0,.3) inset;
+  text-align: center;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: .5s .3s;
+}
+#dialog.show{
+  margin-top:-100px;
+  opacity: 1;
+  visibility: visible;
+}
+#dialog h4{
+  margin:30px auto 10px;
+  text-indent: 10px;
+  letter-spacing: 10px;
+}
+#dialog p{
+  margin:10px;
+  font-size:14px;
+  line-height: 30px;
+}
+#dialog p.tip{
+  color: red;
+  font-size: 16px;
+}
+#dialog .out{
+  position: absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  width:64px;
+  height:30px;
+  margin:0 auto 15px;
+  background-color: #1ba784;
+  color: #fff;
+  line-height: 30px;
+  cursor: pointer;
+  transition:background-color .3s .3s;
+}
+#dialog .out:hover{
+  background-color: #40d4af;
+}

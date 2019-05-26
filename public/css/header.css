@@ -1,0 +1,83 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-11-28 21:42:30
+ * @version $Id$
+ */
+
+/*header*/
+.header{
+  height:65px;
+  color: #fff;
+}
+.header h3{
+  margin:15px 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height:40px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.header .menu{
+  margin:0 20px;
+}
+.header .menu .h-item{
+  position: relative;
+  padding:25px 10px 8px 10px;
+  color: #ccc;
+  font-size:14px;
+  transition: .3s;
+}
+/*.header .menu .h-item.active,
+.header .menu .h-item:hover{
+  color: #fff;
+  border-bottom:2px solid #fff;
+}*/
+
+.header .menu .h-item.active{
+  color: #fff;
+}
+.header .menu .h-item::before{
+  content:'';
+  position: absolute;
+  top:100%;
+  left:100%;
+  width: 0;
+  height:0;
+  border-bottom:#fff solid 2px;
+  transition: .2s .3s all linear;
+}
+.header .menu .h-item:hover::before{
+  width:100%;
+  left:0;
+}
+.header .menu .h-item:hover~.h-item::before{
+  left:0;
+}
+
+.header .logo{
+  margin-top:100px;
+  font-size: 30px;
+  font-weight: 900;
+  text-align: center;
+  line-height:100px;
+  letter-spacing: 12px;
+  text-shadow: 5px 5px 5px #555;
+}
+.header .contribute{
+  width:300px;
+  height:60px;
+  margin:100px auto;
+  border-radius:5px;
+  background-color:rgba(47,47,53,.3);
+  text-align: center;
+  line-height: 60px;
+  user-select: none;
+  transition: .3s;
+}
+.header .contribute:hover{
+  color: #1ba784;
+  font-weight: bold;
+  background-color:rgba(235,255,255,.6);    
+}

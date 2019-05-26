@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文章</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <link rel="stylesheet" type="text/css" href="/css/republic.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/footer.css">
+    <style>
+      .wrap{
+          background-image:linear-gradient(to bottom, #27ae60 65px,#f5f5f5 65px);
+      }
+      .header{
+        height:65px;
+      }
+      .desc{
+        min-height:600px;
+      }
+      .desc .search .form{
+        width:604px;
+        margin:0 auto;
+        padding:30px 0 20px 0;
+        font-size:0;
+      }
+      .desc .search .form>input[name=stateId]{
+        display: inline-block;
+        width:480px;
+        height:36px;
+        padding:0;
+        border:2px solid #1ba784;
+        border-bottom:2px solid #1ba784;
+        font-size:14px;
+        text-indent: 15px;
+        line-height: 36px;
+        vertical-align: top;
+        outline: none;
+        transition: .3s .2s;
+      }
+      .desc .search .form>input::-webkit-input-placeholder {
+        color: #aab2bd;
+        font-size: 12px;
+      }
+      .desc .search .form .search-btn{
+        display: inline-block;
+        width:120px;
+        height:40px;
+        background-color: #1ba784;
+        color: #fff;
+        font-size:16px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        transition:background-color .3s .2s;
+      }
+      .desc .search .form .search-btn:hover{
+        background-color: #40d4af;
+      }
+      .desc .search .form .search-btn:hover~input{
+        border-color:#40d4af;
+      }
+      .desc .state-view{
+        width:calc(60% - 40px);
+        height:0;
+        margin:0 auto;
+        padding: 0 20px;
+        background-color:#fff;
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.3);
+        line-height:24px;
+        transition:.3s;
+        overflow: hidden;
+      }
+      .desc .state-view:hover{
+        box-shadow: 0 0 2px 2px rgba(0,0,0,.3);
+      }
+      .desc .state-view.show{
+        height:96px;
+      }
+      .desc .state-view a>div{
+        width:60%;
+        height:24px;
+        text-overflow: ellipsis;
+      }
+      .desc .state-view a>div>span:nth-child(1){
+        color:#666;
+      }
+      .desc .state-view .editor,
+      .desc .state-view .state{
+        width:40%;
+      }
+      .desc .state-view .comment{
+        width: 100%;
+      }
+	</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- header start -->
+    <div class="header content clear-fix">
+        <h3 class="title fl-l"><a href="/">在线投稿系统</a></h3>
+        <ul class="menu fl-r">
+          <li class="h-item fl-l"><a href="/article/contribute">投稿</a></li>
+          <li class="h-item fl-l active">文章</li>
+          <li class="h-item fl-l"><a href="/about">关于</a></li>
+        </ul> 
+    </div>
+    <!-- header end -->
+
+    <!-- desc start -->
+    <div class="desc content">
+      
+      <div class="search">
+        <form method="post" class="form">
+          <div class="search-btn fl-r">查询</div>
+          <input type="text" name="stateId" class="stateId" placeholder="请输入查询状态码">
+        </form>
+      </div>
+
+      <div class="state-view">
+        <a href="*">
+          <div class="arcile-tilte fl-l"><span>标题：</span><span class="val">title</span></div>
+          <div class="author fl-l"><span>作者：</span><span class="val">author</span></div>
+          <div class="state fl-r"><span>状态：</span><span class="val">state</span></div>   
+          <div class="date fl-l"><span>投稿日期：</span><span class="val">2018-12-1 12:23:23</span></div>
+          <div class="editor fl-r"><span>审稿人：</span><span class="val">editer</span></div>      
+          <div class="comment fl-l"><span>评语：</span><span class="val">null</span></div>
+        </a>
+      </div>
+
+    </div>
+    <!-- desc end -->
+
+    <!-- footer start -->
+    <div class="footer">
+      <div class="content">
+        <p class="date fl-l">@2018</p>
+        <p class="sign fl-r">由南京晓庄学院16软转2班第六小组制作</p>
+      </div>
+    </div>
+    <!-- footer end --> 
+  </div>
+
+  <!-- Dialog start -->
+  <div class="mask"></div>
+  <div id="dialog">
+    <h4>提示</h4>
+    <div class="msg">
+      <p class="tip">提交成功！</p>
+      <p id="stateCode"></p>
+    </div>
+    <div class="out">确定</div>
+  </div>
+  <!-- Dialog end -->
+
+  <script src="/js/jquery3.3.1.js"></script>
+  <script>
+    let lastStateId = "";
+    $('.search-btn').click(function(){
+      let stateId = $('.stateId').val().trim();
+      if( stateId==="" ){
+        //提示框
+        $('#dialog .msg .tip').text("状态码不能为空!"); 
+        $('.mask').addClass('show');
+        $('#dialog').addClass('show');
+        $('.out').click(function(){
+          $('.mask').removeClass('show');
+          $('#dialog').removeClass('show');
+        });
+      }else if( lastStateId === stateId ){
+        $('.state-view').removeClass('show');
+        setTimeout(function(){
+          $('.state-view').addClass('show');
+        },300);
+      }else{
+         $.ajax({
+          url: "/article/searchArticlePost",
+          data: $('.form').serialize(),
+          type: "POST",
+          cache: false,
+          dataType: 'json',
+          success: function (msg) {
+            if (msg.code != 200) {
+              console.log('文章不存在');
+              $('#dialog .msg .tip').text("文章不存在！请重试！"); 
+              $('.mask').addClass('show');
+              $('#dialog').addClass('show');
+              $('#dialog .out').click(function(){
+                $('.mask').removeClass('show');
+                $('#dialog').removeClass('show');
+              });
+            } else{
+              lastStateId = stateId;
+              console.log('文章搜索成功');
+              //显示搜索文章信息
+              $('.state-view').removeClass('show');
+              setTimeout(function(){
+                $('.state-view a').attr("href", "/article/"+stateId); // 文章详情链接
+                $('.arcile-tilte .val').text(msg.data.title);         // 文章标题
+                $('.author .val').text(msg.data.author);              // 作者
+                $('.state .val').text(msg.data.state);                // 文章当前审阅状态
+                $('.date .val').text(msg.data.date);                  // 投稿日期
+                $('.editor .val').text(msg.data.editorName||"暂无");  // 审核人
+                $('.comment .val').text(msg.data.comment||"暂无");    // 评论内容
+
+                $('.state-view').addClass('show');
+              },300);
+            }
+          },
+          error:function(err){
+            console.log(err);
+          }
+        });
+      }
+    });
+
+  </script>
+</body>
+</html>
+
+
+
+
+

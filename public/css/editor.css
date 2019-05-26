@@ -1,0 +1,241 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2018-12-03 17:09:13
+ * @version $Id$
+ */
+
+ 
+.header{
+	overflow:visible;
+}
+.header .h-item{
+	cursor: pointer;
+}
+.header .h-item:last-child{
+	position: relative;
+	padding-top:15px;
+}
+.header .h-item:last-child::before{
+	border-bottom-color:transparent;
+}
+.header .h-item:last-child img{
+	width:36px;
+	height:36px;
+	border-radius: 50%;
+}
+.header .h-item:last-child .user{
+	position: absolute;
+	top:75px;
+	right:-8px;
+	width: 200px;
+	height:80px;
+	padding:20px;
+	border-radius: 0 0 3px 3px;
+	background-color: rgba(255,255,255,.96);
+	box-shadow: 0 2px 5px 2px rgba(0,0,0,.3);
+	transition: .3s .2s;
+	visibility: hidden;
+	opacity: 0;
+	z-index: 666;
+}
+.header .h-item:last-child .user::before{
+	content: '';
+	position: absolute;
+	top:-10px;
+	right:30px;
+	border:5px solid transparent;
+	border-bottom-color:rgba(255,255,255,.8);
+}
+.header .h-item:last-child:hover .user{
+	top: 65px;
+	color: initial;
+	visibility: visible;
+	opacity: 1;
+}
+.header .h-item:last-child .user>img{
+	display: inline-block;
+	width:52px;
+	height:52px;
+}
+.header .h-item:last-child .user>.user-info{
+	display: inline-block;
+	width:130px;
+	padding-left:10px; 
+	vertical-align: top;
+	overflow: hidden;
+}
+.header .h-item:last-child .user>.user-info>p{
+	padding-top:10px;
+	font-size:12px;
+}
+.header .h-item:last-child .loginout{
+	position: absolute;
+	bottom:0;
+	width: calc(100% - 45px);
+	padding: 5px 5px 15px 0;
+	border-top:1px solid #ccc;
+	color:#c3c3c3;
+	font-size: 12px;
+	text-align: right;
+	cursor:pointer;
+	transition: .3s;
+}
+.header .h-item:last-child .loginout:hover{
+	color:initial;
+}
+
+.desc{
+  min-height:520px;
+  padding-bottom:20px;
+}
+.desc .left-box{
+  min-width:230px;
+  max-width:280px;
+  text-overflow: ellipsis;
+}
+.desc .left-box>.avator{
+  display: block;
+  width:120px;
+  height:120px;
+  margin:50px 20px 15px;
+  padding:5px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow:0 0 2px 2px #666;
+}
+.desc .left-box>.user-info{
+  padding:5px 15px;
+}
+.desc .left-box p{
+  line-height:30px;
+}
+.desc .left-box .icon{
+  display:inline-block;
+  width:20px;
+  height:20px;
+  margin:5px;
+  background-position:center;
+  background-size:20px 20px;
+  vertical-align: top;
+}
+.desc .left-box .icon-editor{
+  background-image:url('/images/editor.png');
+}
+.desc .left-box .icon-email{
+  background-image:url('/images/email.png');
+}
+/*right-box*/
+.desc .right-box{
+	position: relative;
+  width:660px;
+  min-height:560px;
+  margin-top: 15px;
+  box-shadow: -2px 2px 2px 0 #ccc;
+  overflow: hidden;
+}
+.desc .right-box>.list{
+  width:100%;
+  height:40px;
+  line-height:40px;
+  box-shadow: inset 2px -2px 2px 0 #ccc;
+}
+.desc .right-box>.list .list-item{
+  position: relative;
+  padding: 0 25px;
+  color: #586069;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:.3s .2s;
+}
+.desc .right-box>.list .list-item::after{
+  content:'';
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  width:0;
+  height:0;
+  margin:auto;
+  border-bottom: 2px solid #27ae60;
+  transition:.3s .2s;
+}
+.desc .right-box>.list .list-item.active,
+.desc .right-box>.list .list-item:hover{
+  color:#27ae60;
+}
+.desc .right-box>.list .list-item:hover::after{
+  width:100%;
+}
+.desc .right-box>.listwrap{
+  position: absolute;
+  top:40px;
+  left:0;
+  width:2028px;
+  height:100%;
+  min-height: 520px;
+  height: calc(100% - 40px);
+  overflow: hidden;
+  transition: .2s .3s;
+}
+.desc .right-box>.listwrap>.list-box{
+  width: 660px;
+  height:calc(100% - 10px);
+  min-height:520px;
+  padding:10px 0 0 16px;
+  background-color: #fff;
+  box-shadow: inset 2px 0 2px 0 #ccc;
+}
+.desc .right-box>.listwrap>.list-box .article-item{
+	position: relative;
+  width: 85%;
+  height: 60px;
+  margin: 10px auto;
+  padding: 5px 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 12px;
+  transition:background-color .3s;
+}
+.desc .right-box>.listwrap>.list-box .article-item:hover{
+  background-color: #f3f3f3;
+  box-shadow: 0 0 2px 0px #ccc;
+}
+.desc .right-box>.listwrap>.list-box .article-item p{
+	position: absolute;
+	height:30px;
+	line-height:30px;
+}
+.desc .right-box>.listwrap>.list-box .article-item .title{
+	left:20px;
+	top:5px;
+}
+.desc .right-box>.listwrap>.list-box .article-item .author{
+	left:20px;
+	bottom:5px;
+}
+.desc .right-box>.listwrap>.list-box .article-item .state{
+	right:20px;
+	top:5px;
+}
+.desc .right-box>.listwrap>.list-box .article-item .date{
+	right:20px;
+	bottom:5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

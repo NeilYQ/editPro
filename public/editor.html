@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑主页</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="描述">
+    <meta name="author" content="Neil-YQ">
+    <link rel="stylesheet" type="text/css" href="/css/republic.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/footer.css">
+    <link rel="stylesheet" type="text/css" href="/css/editor.css">
+    <style>
+        .wrap{
+          background-image:linear-gradient(to bottom, #27ae60 65px,#fff 65px);
+        }
+	</style>
+</head>
+<body>
+	<div class="wrap">
+ 		<!-- header start -->
+    <div class="header content clear-fix">
+        <h3 class="title fl-l"><a href="/">在线投稿系统</a></h3>
+        <ul class="menu fl-r">
+            <li class="h-item fl-l">
+            	<a href=""><img class="avator" src="/images/avator.jpg" width="36" height="36" title=""></a>
+            	<div class="user">
+            		<img class="avator" src="/images/avator.jpg" width="52" height="52" title="">
+            		<div class="user-info">
+                  		<h4 class="loginName">user</h4>
+                  		<p class="email">email</p>
+            		</div>
+            		<a><span class="loginout">login out</span></a>
+            	</div>
+            </li>
+        </ul> 
+    </div>
+    <!-- header end -->
+
+    <!-- desc start -->
+    <div class="desc content">
+        <div class="left-box fl-l">
+            <img class="avator" src="/images/avator.jpg" width="120" height="120" title="">
+            <div class="user-info">
+                <p><i class="icon icon-editor"></i><sapn class="loginName">user</sapn></p>
+                <p><i class="icon icon-email"></i><span class="email">email</span></p>
+            </div>
+        </div>
+        <div class="right-box fl-l">
+          <ul class="list clear-fix">
+            <li class="list-item fl-l active">未审阅</li>
+            <li class="list-item fl-l">待改进</li>
+            <li class="list-item fl-l">已录用</li>
+          </ul>
+          <div class="listwrap clear-fix">
+            <ul class="list-box fl-l notReview"></ul>
+            <ul class="list-box fl-l improved"></ul>
+            <ul class="list-box fl-l take"></ul>
+          </div>
+        </div>
+    </div>
+    <!-- desc end -->
+
+    <!-- footer start -->
+    <div class="footer">
+        <div class="content">
+            <p class="date fl-l">@2018</p>
+            <p class="sign fl-r">由南京晓庄学院16软转2班第六小组制作</p>
+        </div>
+    </div>
+    <!-- footer end -->
+	</div>
+
+  <script src="/js/jquery3.3.1.js"></script>
+  <script src="/js/loginout.js"></script>
+  <script>
+    (function(){
+      let listItem = [...document.querySelectorAll('.desc .right-box .list-item')],
+          listWrap = document.querySelector('.desc .right-box .listwrap'),
+          length = 676,
+          lastIndex = 0
+      ;
+      listItem.forEach((ele,i)=>{
+        ele.addEventListener('click', function(){
+            listItem[lastIndex].classList.remove('active');
+            lastIndex = i;
+            this.classList.add('active');
+            listWrap.style.left = - i*length +"px";
+        });
+      });
+    })();
+    
+    /******文章连接节点样例***********
+      <li class="article-item">
+        <a href="/editor/article/:stateId">
+          <p class="title">标题：<span class="val">title</span></p>
+          <p class="author">作者：<span class="val">author</span></p>
+          <p class="state">状态：<span class="val">state</span></p>
+          <p class="date">日期：<span class="val">date</span></p>
+        </a>
+      </li>
+    */ 
+    // 创建文章连接节点
+    function articleItem(data){
+      let oLi = document.createElement("li"),
+          oLink = document.createElement("a"),
+          oTitle = document.createElement("p"),
+          oAuthor = document.createElement("p"),
+          oState = document.createElement("p"),
+          oDate = document.createElement("p"),
+          oVal = document.createElement("span")
+      ;
+      oLi.className = "article-item";
+      oTitle.className = "title";
+      oAuthor.className = "author";
+      oState.className = "state";
+      oDate.className = "date";
+      oVal.className = "val";
+      oLink.href = `/editor/article/${data.stateId}`;
+
+      oTitle.appendChild(document.createTextNode("标题："));
+      oAuthor.appendChild(document.createTextNode("作者："));
+      oState.appendChild(document.createTextNode("状态："));
+      oDate.appendChild(document.createTextNode("日期："));
+
+      let a = oVal.cloneNode(),
+          b = oVal.cloneNode(),
+          c = oVal.cloneNode(),
+          d = oVal.cloneNode();
+      a.appendChild(document.createTextNode(data.title));
+      b.appendChild(document.createTextNode(data.author));
+      c.appendChild(document.createTextNode(data.state));
+      d.appendChild(document.createTextNode(data.articleDate));
+
+      oTitle.appendChild(a);
+      oAuthor.appendChild(b);
+      oState.appendChild(c);
+      oDate.appendChild(d);
+
+      oLink.appendChild(oTitle);
+      oLink.appendChild(oAuthor);
+      oLink.appendChild(oState);
+      oLink.appendChild(oDate);
+
+      oLi.appendChild(oLink);
+
+      return oLi;
+    }
+    //Ajax
+    $(function(){
+      $.ajax({
+        url: "/editor/articlePost",
+        type: "POST",
+        cache: false,
+        dataType: 'json',
+        success: function (msg) {
+          if(msg.code===200){
+            let nR = document.querySelector(".list-box.notReview"),
+                nI = document.querySelector(".list-box.improved"),
+                nT = document.querySelector(".list-box.take");
+            let notReview = msg.articleData["notReview"],
+                improved = msg.articleData["improved"],
+                take = msg.articleData["take"]
+            ;
+            notReview.length>0 && ( notReview.forEach(ele=>{nR.appendChild(articleItem(ele))}) );
+            improved.length>0 && ( improved.forEach(ele=>{nI.appendChild(articleItem(ele))}) );
+            take.length>0 && ( take.forEach(ele=>{nT.appendChild(articleItem(ele))}) );
+          }
+        },
+        error: (err)=>{
+          console.log(err);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

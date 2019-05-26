@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>查阅文章</title>
+  <meta name="keywords" content="关键词">
+  <meta name="description" content="描述">
+  <meta name="author" content="Neil-YQ">
+  <link rel="stylesheet" type="text/css" href="/css/republic.css">
+  <link rel="stylesheet" type="text/css" href="/css/header.css">
+  <link rel="stylesheet" type="text/css" href="/css/footer.css">
+  <link rel="stylesheet" type="text/css" href="/css/article.css">
+
+</head>
+<body>
+	<div class="wrap">
+		<!-- header start -->
+    <div class="header content clear-fix">
+      <h3 class="title fl-l"><a href="/">在线投稿系统</a></h3>
+      <ul class="menu fl-r">
+        <li class="h-item fl-l"><a href="/article/contribute">投稿</a></li>
+        <li class="h-item fl-l active"><a href="/article/polling">文章</a></li>
+        <li class="h-item fl-l"><a href="/about">关于</a></li>
+      </ul> 
+    </div>
+    <!-- header end -->
+
+    <!-- desc start -->
+    <div class="desc content">
+    	<div class="article-box">
+        <p class="title">title</p>
+        <p class="msg">
+          <i class="icon icon-author"></i><span class="author">author</span>
+          <i class="icon icon-date"></i><span class="date">date</span>
+        </p>
+        <pre class="article-content">content</pre>  
+      </div>
+      <div class="comment-box">
+      	<h3>评论</h3>
+      	<pre class="comment">评论内容</pre>
+      	<p class="editor">审核人：<span class="val"></span></p>
+      </div>
+    </div>
+    <!-- desc end -->
+
+    <!-- footer start -->
+    <div class="footer">
+      <div class="content">
+        <p class="date fl-l">@2018</p>
+        <p class="sign fl-r">由南京晓庄学院16软转2班第六小组制作</p>
+      </div>
+    </div>
+    <!-- footer end -->
+	</div>
+
+  <script src="/js/jquery3.3.1.js"></script>
+  <script>
+	  //获取文章内容
+	  $(function(){
+	    $.ajax({
+	      url: window.location.href+"/articleAllPost",
+	      type: "POST",
+	      cache: false,
+	      dataType: 'json',
+	      success: function (msg) {
+	        $('.article-box .title').text(msg.articleData.title);
+	        $('.article-box .author').text(msg.articleData.author);
+	        $('.article-box .date').text(msg.articleData.articleDate);
+	        $('.article-box .article-content').text(msg.articleData.content);
+	        $('.comment-box .comment').text(msg.articleData.comment||"暂无");
+	        $('.comment-box .editor .val').text(msg.articleData.editorName||"暂无");
+	      },
+	      error: (err)=>{
+	        console.log(err);
+	      }
+	    });
+	  });
+  </script>
+</body>
+</html>
